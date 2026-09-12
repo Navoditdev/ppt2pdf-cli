@@ -1,4 +1,4 @@
-# ppt-to-pdf
+# ppt2pdf
 
 A small Python CLI that converts every PowerPoint file in a folder to PDF.
 
@@ -39,7 +39,7 @@ From this repository:
 pip install -e .
 ```
 
-That exposes the `ppt-to-pdf` command.
+That exposes the `ppt2pdf` command.
 
 You can also run it without installing:
 
@@ -50,7 +50,7 @@ python -m ppt_to_pdf /path/to/folder
 ## Usage
 
 ```bash
-ppt-to-pdf /path/to/folder
+ppt2pdf /path/to/folder
 ```
 
 | Flag | What it does |
@@ -63,8 +63,8 @@ By default, an existing PDF with the same name is overwritten.
 Example:
 
 ```bash
-ppt-to-pdf ~/Documents/slides --dry-run
-ppt-to-pdf ~/Documents/slides --skip-existing
+ppt2pdf ~/Documents/slides --dry-run
+ppt2pdf ~/Documents/slides --skip-existing
 ```
 
 The command prints each converted, skipped, and failed file, then a summary. It exits with status `1` if the folder is invalid, LibreOffice is missing, or any conversion fails.

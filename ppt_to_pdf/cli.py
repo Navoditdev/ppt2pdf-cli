@@ -14,7 +14,7 @@ from ppt_to_pdf.convert import (
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="ppt-to-pdf",
+        prog="ppt2pdf",
         description=(
             "Convert .ppt and .pptx files in a folder to PDFs. "
             "Other files are skipped. PDFs are written next to the originals."

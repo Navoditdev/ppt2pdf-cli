@@ -11,7 +11,7 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-ppt-to-pdf = "ppt_to_pdf.cli:main"
+ppt2pdf = "ppt_to_pdf.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["ppt_to_pdf*"]
