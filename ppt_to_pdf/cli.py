@@ -35,13 +35,21 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="List what would be converted without calling LibreOffice",
     )
+    parser.add_argument(
+        "--delete",
+        action="store_true",
+        help="Delete each PowerPoint file after it converts successfully",
+    )
     return parser
 
 
 def print_result(result: ConversionResult, *, dry_run: bool) -> None:
-    verb = "Would convert" if dry_run else "Converted"
+    convert_verb = "Would convert" if dry_run else "Converted"
+    delete_verb = "Would delete" if dry_run else "Deleted"
+    deleted = {path for path in result.deleted}
     for path in result.converted:
-        print(f"{verb}: {path.name}")
+        extra = f"; {delete_verb.lower()}" if path in deleted else ""
+        print(f"{convert_verb}{extra}: {path.name}")
     for path, reason in result.skipped:
         print(f"Skipped: {path.name} ({reason})")
     for path, reason in result.failed:
@@ -49,6 +57,7 @@ def print_result(result: ConversionResult, *, dry_run: bool) -> None:
 
     print(
         f"\nSummary: {len(result.converted)} converted, "
+        f"{len(result.deleted)} deleted, "
         f"{len(result.skipped)} skipped, {len(result.failed)} failed"
     )
 

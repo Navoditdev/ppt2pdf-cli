@@ -17,6 +17,7 @@ class SofficeNotFoundError(FileNotFoundError):
 @dataclass
 class ConversionResult:
     converted: list[Path] = field(default_factory=list)
+    deleted: list[Path] = field(default_factory=list)
     skipped: list[tuple[Path, str]] = field(default_factory=list)
     failed: list[tuple[Path, str]] = field(default_factory=list)
 
@@ -78,6 +79,7 @@ def convert_folder(
     *,
     skip_existing: bool = False,
     dry_run: bool = False,
+    delete_sources: bool = False,
     soffice: Path | None = None,
 ) -> ConversionResult:
     folder = resolve_folder(folder)
@@ -100,6 +102,8 @@ def convert_folder(
 
         if dry_run:
             result.converted.append(path)
+            if delete_sources:
+                result.deleted.append(path)
             continue
 
         assert soffice_bin is not None
@@ -109,9 +113,18 @@ def convert_folder(
             result.failed.append(
                 (path, f"timed out after {CONVERT_TIMEOUT_SECONDS}s")
             )
+            continue
         except Exception as exc:
             result.failed.append((path, str(exc)))
-        else:
-            result.converted.append(path)
+            continue
+
+        result.converted.append(path)
+        if delete_sources:
+            try:
+                path.unlink()
+            except OSError as exc:
+                result.failed.append((path, f"converted but could not delete: {exc}"))
+            else:
+                result.deleted.append(path)
 
     return result
