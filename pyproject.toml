@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "ppt-to-pdf"
 version = "0.1.0"
 description = "Convert .ppt and .pptx files in a folder to PDFs"
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
 
